@@ -1,0 +1,3 @@
+# szokapocs
+
+Új projekt inicializálva.
