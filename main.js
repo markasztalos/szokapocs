@@ -18,6 +18,15 @@ const rafflePostDrawControls = document.getElementById('raffle-post-draw-control
 const retryBtn = document.getElementById('retry-btn');
 const passBtn = document.getElementById('pass-btn');
 
+// Font Size Controls
+const fontSizeControls = document.getElementById('font-size-controls');
+const fontIncreaseBtn = document.getElementById('font-increase-btn');
+const fontDecreaseBtn = document.getElementById('font-decrease-btn');
+let gridFontSize = 15; // px, default
+const FONT_STEP = 2;
+const FONT_MIN = 9;
+const FONT_MAX = 60;
+
 let currentWords = [];
 let secondsPassed = 0;
 let timerInterval = null;
@@ -125,7 +134,6 @@ startGameBtn.addEventListener('click', () => {
 function startGame() {
     setupView.hidden = true;
     gameView.hidden = false;
-    gameTimer.hidden = false;
 
     generateGrid();
 
@@ -133,8 +141,12 @@ function startGame() {
     secondsPassed = 0;
     timerText.textContent = '00:00';
 
-    // Show raffle controls
+    // Show raffle controls and font size buttons (timer is inside fontSizeControls)
     raffleControls.hidden = false;
+    fontSizeControls.hidden = false;
+
+    // Apply default font size to grid
+    mainGrid.style.fontSize = gridFontSize + 'px';
 }
 
 /**
@@ -240,6 +252,20 @@ drawBtn.addEventListener('click', () => performRaffle(false));
 retryBtn.addEventListener('click', () => performRaffle(true));
 passBtn.addEventListener('click', () => resetRaffle());
 
+// Font Size Button Listeners
+fontIncreaseBtn.addEventListener('click', () => {
+    if (gridFontSize < FONT_MAX) {
+        gridFontSize += FONT_STEP;
+        mainGrid.style.fontSize = gridFontSize + 'px';
+    }
+});
+
+fontDecreaseBtn.addEventListener('click', () => {
+    if (gridFontSize > FONT_MIN) {
+        gridFontSize -= FONT_STEP;
+        mainGrid.style.fontSize = gridFontSize + 'px';
+    }
+});
 
 
 /**
@@ -303,7 +329,7 @@ function generateGrid() {
     mainGrid.innerHTML = '';
 
     // Grid settings: 7 columns (fixed + words + 5 cells)
-    mainGrid.style.gridTemplateColumns = '30px 140px 1fr 1fr 1fr 1fr 1fr';
+    mainGrid.style.gridTemplateColumns = '30px max-content 1fr 1fr 1fr 1fr 1fr';
     mainGrid.style.gridTemplateRows = '30px 1fr 1fr 1fr 1fr 1fr 1fr';
 
     const colLetters = ['A', 'B', 'C', 'D', 'E'];

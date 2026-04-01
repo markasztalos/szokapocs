@@ -336,7 +336,7 @@ body {
     background: var(--white);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     color: var(--primary-blue);
-    font-size: 1.2rem;
+    font-size: 1.2em;
     padding: 10px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.8);
@@ -347,7 +347,7 @@ body {
     background: rgba(255, 255, 255, 0.4);
     border: 1.5px dashed #dcd8f0;
     color: #b0aecb;
-    font-size: 0.9rem;
+    font-size: 0.9em;
     transition: all 0.2s ease;
 }
 
@@ -361,7 +361,7 @@ body {
     background: #00695c;
     color: white;
     border: none;
-    font-size: 1.1rem;
+    font-size: 1.1em;
 }
 
 /* Guessing Mechanics */
@@ -413,7 +413,7 @@ body {
     background: var(--secondary-teal);
     color: white;
     border-color: #36cbb5;
-    font-size: 1.1rem;
+    font-size: 1.1em;
     font-weight: 700;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(76, 227, 204, 0.4);
@@ -428,6 +428,40 @@ body {
 
 .game-cell.cell-wrong-guess {
     animation: flashWrong 1.5s ease;
+}
+
+/* Font size controls */
+.font-size-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.font-size-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--box-border);
+    background: var(--white);
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    user-select: none;
+}
+
+.font-size-btn:hover {
+    background: var(--sidebar-bg);
+    border-color: var(--primary-blue);
+}
+
+.font-size-btn:active {
+    transform: scale(0.92);
 }
 
 [hidden] {
