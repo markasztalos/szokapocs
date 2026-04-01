@@ -29,10 +29,12 @@ body {
 }
 
 .app-header {
-    padding: 20px 40px;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 80px;
+    position: relative;
 }
 
 .timer-display {
@@ -54,6 +56,62 @@ body {
     color: var(--primary-blue);
     font-weight: 700;
     font-size: 1.2rem;
+}
+
+/** Raffle Styles - ID based and forced **/
+#raffle-display {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex;
+    align-items: center !important;
+    gap: 12px !important;
+    background: #ffd700 !important;
+    background-color: #ffd700 !important;
+    padding: 8px 24px !important;
+    border-radius: 30px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+    border: 3px solid #e6c200 !important;
+    z-index: 9999 !important;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    cursor: pointer;
+}
+
+#raffle-cell-name {
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+}
+
+#raffle-countdown {
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    background: rgba(0, 0, 0, 0.15) !important;
+    padding: 4px 14px !important;
+    border-radius: 12px !important;
+    min-width: 40px !important;
+    text-align: center !important;
+}
+
+.raffle-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.raffle-post-draw-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 .setup-container {
@@ -268,6 +326,9 @@ body {
     color: #b0aecb;
     font-size: 0.9rem;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Word Cards (Top/Left) */
@@ -301,6 +362,72 @@ body {
     color: white;
     border: none;
     font-size: 1.1rem;
+}
+
+/* Guessing Mechanics */
+.hint-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 20px;
+}
+
+.hint-input {
+    border: 1px solid var(--box-border);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--primary-blue);
+    outline: none;
+    transition: all 0.3s ease;
+    width: 200px;
+    background: var(--white);
+}
+
+.hint-input:focus {
+    border-color: var(--secondary-teal);
+    box-shadow: 0 0 0 3px rgba(76, 227, 204, 0.2);
+}
+
+.hint-input.hint-locked {
+    background-color: #ffd700;
+    color: #1a1a1a;
+    border-color: #e6c200;
+    font-weight: 700;
+    pointer-events: none;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Gameplay Grid Interactions */
+.game-cell.cell-guess-hover:hover {
+    background: rgba(76, 227, 204, 0.3);
+    border-color: var(--secondary-teal);
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.game-cell.cell-correct {
+    background: var(--secondary-teal);
+    color: white;
+    border-color: #36cbb5;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(76, 227, 204, 0.4);
+    z-index: 2;
+}
+
+@keyframes flashWrong {
+    0% { background: rgba(255, 255, 255, 0.4); border-color: #dcd8f0; color: #b0aecb; }
+    30% { background: #ff4d4d; color: white; border-color: #cc0000; }
+    100% { background: rgba(255, 255, 255, 0.4); border-color: #dcd8f0; color: #b0aecb; }
+}
+
+.game-cell.cell-wrong-guess {
+    animation: flashWrong 1.5s ease;
 }
 
 [hidden] {
