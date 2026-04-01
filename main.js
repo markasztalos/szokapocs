@@ -142,7 +142,7 @@ function startGame() {
  */
 function performRaffle(reuse = false) {
     if (!reuse) {
-        const colLetters = ['A', 'B', 'C', 'D']; // Exclude 'E' as requested (A1-D5)
+        const colLetters = ['A', 'B', 'C', 'D', 'E'];
         const rowNumbers = ['1', '2', '3', '4', '5'];
 
         // Build a pool of cells that haven't been correctly guessed yet
