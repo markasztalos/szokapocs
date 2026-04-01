@@ -199,13 +199,13 @@ function finishRaffle() {
         raffleTimer = null;
     }
     raffleDisplay.hidden = true;
-    rafflePostDrawControls.hidden = true;
+    rafflePostDrawControls.hidden = false; // show Mutasd újra + Pasz
 
     // Immediately start guessing
     isGuessingPhase = true;
     document.querySelectorAll('.game-cell').forEach(cell => {
         const label = cell.textContent.trim();
-        if (label.match(/^[A-D][1-5]$/) && !cell.classList.contains('cell-correct')) {
+        if (label.match(/^[A-E][1-5]$/) && !cell.classList.contains('cell-correct')) {
             cell.classList.add('cell-guess-hover');
         }
     });
@@ -263,7 +263,7 @@ function endGuessPhase() {
     });
 
     // Check if all A1-D5 cells have been correctly guessed
-    const total = 4 * 5; // A-D × 1-5
+    const total = 5 * 5; // A-E × 1-5
     const done = document.querySelectorAll('.game-cell.cell-correct').length;
     if (done >= total) {
         drawBtn.hidden = true; // All cells done — hide Sorolás
@@ -364,7 +364,7 @@ function generateGrid() {
 
         const label = cell.textContent;
         // Only A1-D5 can be guessed, and ignore already correct cells
-        if (!label.match(/^[A-D][1-5]$/) || cell.classList.contains('cell-correct')) return;
+        if (!label.match(/^[A-E][1-5]$/) || cell.classList.contains('cell-correct')) return;
 
         if (label === currentRaffleCell) {
             cell.classList.add('cell-correct');
