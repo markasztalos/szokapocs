@@ -23,28 +23,31 @@ body {
     background-color: var(--bg-color);
     font-family: var(--font-main);
     color: var(--text-dark);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .app-header {
-    padding: 0 40px;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    gap: 12px;
     position: relative;
+    flex-shrink: 0;
 }
 
 .timer-display {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.3em;
     background: #e6e4f5;
-    padding: 6px 16px;
+    padding: 0.2em 0.55em;
     border-radius: 20px;
     font-weight: 600;
+    font-size: 0.75em;
     color: var(--primary-blue);
     font-variant-numeric: tabular-nums;
 }
@@ -52,67 +55,105 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5em;
     color: var(--primary-blue);
     font-weight: 700;
-    font-size: 1.2rem;
 }
 
-/** Raffle Styles - ID based and forced **/
-#raffle-display {
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+/** Bal oldali csoport: logo + visszaszámláló **/
+.header-left {
     display: flex;
-    align-items: center !important;
-    gap: 12px !important;
-    background: #ffd700 !important;
-    background-color: #ffd700 !important;
-    padding: 8px 24px !important;
-    border-radius: 30px !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
-    border: 3px solid #e6c200 !important;
-    z-index: 9999 !important;
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.highlight-countdown-btn {
+    background: #ffd700;
+    border: 2px solid #e6c200;
+    border-radius: 30px;
+    padding: 0.15em 0.7em;
+    font-size: 0.75em;
+    font-weight: 800;
+    color: #1a1a1a;
     cursor: pointer;
+    font-family: inherit;
+    min-width: 2em;
+    text-align: center;
+    transition: background 0.15s;
 }
 
-#raffle-cell-name {
-    font-size: 2.2rem !important;
-    font-weight: 800 !important;
+.highlight-countdown-btn:hover {
+    background: #f0c800;
+}
+
+/** Rácsban a sorsolt cella és sor/oszlop kiemelése **/
+.cell-highlight-primary {
+    background: #ffd700 !important;
+    border-color: #e6c200 !important;
     color: #1a1a1a !important;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+    font-weight: 700 !important;
 }
 
-#raffle-countdown {
-    font-size: 1.3rem !important;
-    font-weight: 800 !important;
-    color: #1a1a1a !important;
-    background: rgba(0, 0, 0, 0.15) !important;
-    padding: 4px 14px !important;
-    border-radius: 12px !important;
-    min-width: 40px !important;
-    text-align: center !important;
+.cell-highlight-secondary {
+    background: rgba(255, 215, 0, 0.22) !important;
 }
 
-.raffle-controls {
+/** Icon-only header buttons **/
+.header-right {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-left: auto;
-    margin-right: 20px;
+    gap: 0.4em;
 }
 
-.raffle-post-draw-controls {
+.icon-btn {
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 50%;
+    border: 1.5px solid rgba(75, 84, 161, 0.2);
+    background: transparent;
+    color: var(--primary-blue);
+    font-size: 0.75em;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.15s, border-color 0.15s, opacity 0.2s;
+    position: relative;
 }
 
-@keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+.icon-btn::after {
+    content: attr(title);
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 50, 0.85);
+    color: #fff;
+    padding: 0.25em 0.6em;
+    border-radius: 0.4em;
+    font-size: 0.9em;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s 0.4s;
+    z-index: 100;
 }
+
+.icon-btn:hover:not(:disabled)::after {
+    opacity: 1;
+}
+
+.icon-btn:not(:disabled):hover {
+    background: var(--sidebar-bg);
+    border-color: var(--primary-blue);
+}
+
+.icon-btn:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
 
 .setup-container {
     max-width: 800px;
@@ -161,14 +202,16 @@ body {
     color: #1a6d61;
     border: none;
     border-radius: 30px;
-    padding: 10px 20px;
+    padding: 0.2em 0.55em;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.75em;
+    font-family: inherit;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.3em;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .secondary-btn:hover:not(:disabled) {
@@ -290,16 +333,18 @@ body {
 /* Game View Styles */
 .game-container {
     padding: 20px;
-    flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .game-grid-wrapper {
     background: #efebfa;
     border-radius: 24px;
-    padding: 24px;
     flex: 1;
+    min-height: 0;
+    padding: 24px;
     display: flex;
 }
 
@@ -308,8 +353,10 @@ body {
     grid-template-columns: 40px 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 40px 1fr 1fr 1fr 1fr 1fr;
     gap: 12px;
-    width: 100%;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .grid-cell {
@@ -324,7 +371,6 @@ body {
 /* Letter/Number headers */
 .header-label {
     color: #b0aecb;
-    font-size: 0.9rem;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -336,10 +382,12 @@ body {
     background: var(--white);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     color: var(--primary-blue);
-    font-size: 1.2em;
     padding: 10px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0;
 }
 
 /* Game operational cells */
@@ -347,7 +395,6 @@ body {
     background: rgba(255, 255, 255, 0.4);
     border: 1.5px dashed #dcd8f0;
     color: #b0aecb;
-    font-size: 0.9em;
     transition: all 0.2s ease;
 }
 
@@ -361,7 +408,6 @@ body {
     background: #00695c;
     color: white;
     border: none;
-    font-size: 1.1em;
 }
 
 /* Guessing Mechanics */
@@ -413,7 +459,6 @@ body {
     background: var(--secondary-teal);
     color: white;
     border-color: #36cbb5;
-    font-size: 1.1em;
     font-weight: 700;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(76, 227, 204, 0.4);
@@ -430,40 +475,159 @@ body {
     animation: flashWrong 1.5s ease;
 }
 
-/* Font size controls */
-.font-size-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.font-size-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1.5px solid var(--box-border);
-    background: var(--white);
-    color: var(--primary-blue);
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, border-color 0.15s, transform 0.1s;
-    user-select: none;
-}
-
-.font-size-btn:hover {
-    background: var(--sidebar-bg);
-    border-color: var(--primary-blue);
-}
-
-.font-size-btn:active {
-    transform: scale(0.92);
-}
 
 [hidden] {
     display: none !important;
+}
+
+/* ── Modals ─────────────────────────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 20, 60, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    animation: fadeIn 0.15s ease;
+}
+
+.modal-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px 36px;
+    width: 420px;
+    max-width: 90vw;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--box-border);
+}
+
+.modal-title {
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+}
+
+.modal-input {
+    border: 1.5px solid var(--box-border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1.05rem;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--primary-blue);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--bg-color);
+}
+
+.modal-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(75,84,161,0.1);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.modal-btn-primary {
+    background: var(--primary-blue);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.modal-btn-primary:hover:not(:disabled) {
+    background: var(--primary-blue-hover);
+    transform: translateY(-1px);
+}
+
+.modal-btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.modal-btn-danger {
+    background: #e53935;
+}
+
+.modal-btn-danger:hover:not(:disabled) {
+    background: #c62828;
+}
+
+.modal-btn-secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--box-border);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.modal-btn-secondary:hover {
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+/* Hibás tippek lista */
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.results-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    border: 1px solid var(--box-border);
+    flex-wrap: wrap;
+}
+
+.results-item-word {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.results-item-cell {
+    font-weight: 800;
+    color: var(--primary-blue);
+    background: rgba(75,84,161,0.1);
+    padding: 0.05em 0.4em;
+    border-radius: 0.4em;
+    font-size: 0.95em;
+}
+
+.results-item-sep {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.results-item-context {
+    font-weight: 500;
+    color: var(--text-dark);
 }
