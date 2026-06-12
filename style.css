@@ -71,14 +71,15 @@ body {
     background: #ffd700;
     border: 2px solid #e6c200;
     border-radius: 30px;
-    padding: 0.15em 0.7em;
+    padding: 0.15em 0.55em;
     font-size: 0.75em;
     font-weight: 800;
     color: #1a1a1a;
     cursor: pointer;
     font-family: inherit;
-    min-width: 2em;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
     transition: background 0.15s;
 }
 

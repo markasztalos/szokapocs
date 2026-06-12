@@ -175,14 +175,15 @@ function highlightCell(cellLabel) {
     });
 
     // Visszaszámláló gomb megjelenítése
+    const xIcon = `<svg width="0.8em" height="0.8em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
     let secondsLeft = 5;
-    highlightCountdownBtn.textContent = secondsLeft;
+    highlightCountdownBtn.innerHTML = `<span>${secondsLeft}</span>${xIcon}`;
     highlightCountdownBtn.hidden = false;
 
     clearInterval(highlightInterval);
     highlightInterval = setInterval(() => {
         secondsLeft--;
-        highlightCountdownBtn.textContent = secondsLeft;
+        highlightCountdownBtn.innerHTML = `<span>${secondsLeft}</span>${xIcon}`;
         if (secondsLeft <= 0) {
             clearInterval(highlightInterval);
         }
