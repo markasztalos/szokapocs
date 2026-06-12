@@ -155,15 +155,27 @@ body {
     cursor: not-allowed;
 }
 
+.icon-btn.active {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: #fff;
+}
+
+.icon-btn.active:hover:not(:disabled) {
+    background: var(--primary-blue-hover);
+}
+
 
 .setup-container {
     max-width: 800px;
     margin: 40px auto;
-    padding: 0 20px;
+    padding: 0 20px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .page-title {
@@ -180,6 +192,7 @@ body {
     box-shadow: var(--shadow-soft);
     overflow: hidden;
     border: 1px solid var(--box-border);
+    flex-shrink: 0;
 }
 
 .box-header {
@@ -273,6 +286,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .primary-btn {
@@ -479,6 +493,89 @@ body {
 
 [hidden] {
     display: none !important;
+}
+
+/* ── Mobil: össze-/lecsukható header gomb ──────────────────────────────────── */
+.header-toggle-btn {
+    position: fixed;
+    top: 6px;
+    right: 6px;
+    z-index: 400;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary-blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    padding: 0;
+}
+
+/* Lecsukott állapotban a nyíl megfordul (lefelé mutat) */
+.header-collapsed .header-toggle-btn svg {
+    transform: rotate(180deg);
+}
+
+/* Az össze-/lecsukó gomb csak bekapcsolt mobil módban látszik */
+body:not(.mobile-mode) .header-toggle-btn {
+    display: none !important;
+}
+
+.header-collapsed .app-header {
+    display: none;
+}
+
+/* Összecsukva a body egyetlen sorrá válik, a tábla kitölti a teljes magasságot */
+body.header-collapsed {
+    grid-template-rows: 1fr;
+}
+
+/* ── Mobil mód (manuálisan kapcsolható) ────────────────────────────────────── */
+.mobile-mode .app-header {
+    padding: 8px 12px;
+    padding-right: 44px; /* hely a toggle gombnak */
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 0;
+}
+
+.mobile-mode .logo {
+    font-size: 1rem;
+}
+
+.mobile-mode .header-right {
+    gap: 0.3em;
+}
+
+.mobile-mode .game-container {
+    padding: 6px;
+}
+
+.mobile-mode .game-grid-wrapper {
+    padding: 8px;
+    border-radius: 14px;
+}
+
+.mobile-mode .game-grid {
+    gap: 4px;
+}
+
+.mobile-mode .word-card {
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.mobile-mode .game-cell {
+    border-radius: 8px;
+}
+
+.mobile-mode .modal-card {
+    padding: 24px 22px;
+    gap: 16px;
 }
 
 /* ── Modals ─────────────────────────────────────────────────────────────────── */

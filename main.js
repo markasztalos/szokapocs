@@ -11,8 +11,10 @@ const startGameBtn = document.getElementById('start-game-btn');
 const drawBtn               = document.getElementById('draw-btn');
 const passBtn               = document.getElementById('pass-btn');
 const retryBtn              = document.getElementById('retry-btn');
+const mobileToggleBtn       = document.getElementById('mobile-toggle-btn');
 const resizeBtn             = document.getElementById('resize-btn');
 const exitBtn               = document.getElementById('exit-btn');
+const headerToggleBtn       = document.getElementById('header-toggle-btn');
 const gameTimer             = document.getElementById('game-timer');
 const highlightCountdownBtn = document.getElementById('highlight-countdown-btn');
 
@@ -51,8 +53,14 @@ function returnToSetup() {
     timerText.textContent = '00:00';
     // UI reset
     gameTimer.hidden = true;
+    drawBtn.hidden = true;
+    passBtn.hidden = true;
+    retryBtn.hidden = true;
     exitBtn.hidden = true;
     resizeBtn.hidden = true;
+    headerToggleBtn.hidden = true;
+    mobileToggleBtn.hidden = true;
+    document.body.classList.remove('header-collapsed');
     gameView.hidden = true;
     setupView.hidden = false;
     // Új szókészlet generálása
@@ -287,8 +295,16 @@ function startGame() {
     gameTimer.hidden = false;
 
     wrongGuesses = [];
+    drawBtn.hidden = false;
+    passBtn.hidden = false;
+    retryBtn.hidden = false;
     exitBtn.hidden = false;
     resizeBtn.hidden = false;
+    headerToggleBtn.hidden = false;
+    mobileToggleBtn.hidden = false;
+    // Amíg a felhasználó nem állította át kézzel, a képernyőmérethez igazodunk
+    if (!mobileModeUserSet) mobileMode = defaultMobileMode();
+    applyMobileMode();
     setRaffleState('idle');
     autoFitFontSize();
 }
@@ -297,13 +313,19 @@ function startGame() {
 function autoFitFontSize() {
     if (gameView.hidden) return;
 
+    applyGridTemplate();
+
+    const wordCards = [...mainGrid.querySelectorAll('.word-card')];
     let lo = FONT_MIN, hi = FONT_MAX, best = FONT_MIN;
     while (lo <= hi) {
         const mid = Math.floor((lo + hi) / 2);
         mainGrid.style.fontSize = mid + 'px';
-        const hOver = mainGrid.scrollWidth > mainGrid.clientWidth + 1;
+        // Rács egészének túlcsordulása (desktop: max-content oszlopok nőnek)
+        const gridHOver = mainGrid.scrollWidth > mainGrid.clientWidth + 1;
+        // Cellán belüli túlcsordulás (mobil: zsugorodó oszlopok, a szöveg levágódna)
+        const cellHOver = wordCards.some(el => el.scrollWidth > el.clientWidth + 1);
         const vOver = [...mainGrid.children].some(el => el.scrollHeight > el.clientHeight + 2);
-        if (!hOver && !vOver) { best = mid; lo = mid + 1; }
+        if (!gridHOver && !cellHOver && !vOver) { best = mid; lo = mid + 1; }
         else { hi = mid - 1; }
     }
     gridFontSize = best;
@@ -314,6 +336,31 @@ function autoFitFontSize() {
 let resizeTimeout = null;
 resizeBtn.addEventListener('click', autoFitFontSize);
 
+/**
+ * Mobil mód alkalmazása (osztály, gomb-állapot, sablon, betűillesztés).
+ */
+function applyMobileMode() {
+    document.body.classList.toggle('mobile-mode', mobileMode);
+    mobileToggleBtn.classList.toggle('active', mobileMode);
+    // Desktop módban nincs összecsukott header
+    if (!mobileMode) document.body.classList.remove('header-collapsed');
+    requestAnimationFrame(autoFitFontSize);
+}
+
+// Mobil mód kézi ki-/bekapcsolása
+mobileToggleBtn.addEventListener('click', () => {
+    mobileMode = !mobileMode;
+    mobileModeUserSet = true;
+    applyMobileMode();
+});
+
+// Header össze-/lecsukása mobil módban — a táblának több hely jut
+headerToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('header-collapsed');
+    requestAnimationFrame(autoFitFontSize);
+});
+
+// Ablakméret változásnál csak újraillesztjük a betűt (a mód NEM vált automatikusan)
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(autoFitFontSize, 100);
@@ -414,10 +461,33 @@ function pauseTimer() {
 }
 
 // ─── Grid generation ─────────────────────────────────────────────────────────
+const MOBILE_BREAKPOINT = 640;
+
+// Manuálisan kapcsolható mobil mód. A default a képernyőmérethez igazodik,
+// amíg a felhasználó kézzel nem állítja át; utána a választása marad érvényben.
+let mobileMode = false;
+let mobileModeUserSet = false;
+
+function defaultMobileMode() {
+    return window.innerWidth <= MOBILE_BREAKPOINT || window.innerHeight <= MOBILE_BREAKPOINT;
+}
+
+/**
+ * Oszlop-sablon: desktop módban max-content (a leghosszabb szóhoz igazodik),
+ * mobil módban minmax(0,1fr) — engedi zsugorodni, így szélességre illeszt.
+ */
+function applyGridTemplate() {
+    if (mobileMode) {
+        mainGrid.style.gridTemplateColumns = '1.3em repeat(6, minmax(0, 1fr))';
+    } else {
+        mainGrid.style.gridTemplateColumns = '1.5em max-content minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr)';
+    }
+    mainGrid.style.gridTemplateRows = '1.5em 1fr 1fr 1fr 1fr 1fr 1fr';
+}
+
 function generateGrid() {
     mainGrid.innerHTML = '';
-    mainGrid.style.gridTemplateColumns = '1.5em max-content minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr) minmax(max-content, 1fr)';
-    mainGrid.style.gridTemplateRows    = '1.5em 1fr 1fr 1fr 1fr 1fr 1fr';
+    applyGridTemplate();
 
     const colLetters = ['A','B','C','D','E'];
     const rowNumbers = ['1','2','3','4','5'];

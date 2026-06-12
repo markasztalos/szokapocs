@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.7">
+    <link rel="stylesheet" href="style.css?v=4.3">
 </head>
 
 <body>
@@ -28,21 +28,21 @@
 
         <!-- Jobb: gombok + timer -->
         <div class="header-right">
-            <button id="retry-btn" class="icon-btn" title="Mutasd újra" disabled>
+            <button id="retry-btn" class="icon-btn" title="Mutasd újra" disabled hidden>
                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                     <circle cx="12" cy="12" r="3" />
                 </svg>
             </button>
-            <button id="pass-btn" class="icon-btn" title="Pasz" disabled>
+            <button id="pass-btn" class="icon-btn" title="Pasz" disabled hidden>
                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
             </button>
-            <button id="draw-btn" class="icon-btn" title="Sorsolás" disabled>
+            <button id="draw-btn" class="icon-btn" title="Sorsolás" disabled hidden>
                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 2v6h-6" />
@@ -59,6 +59,9 @@
                 </svg>
                 <span id="timer-text">00:00</span>
             </div>
+            <button id="mobile-toggle-btn" class="icon-btn" title="Mobil mód" hidden>
+                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </button>
             <button id="resize-btn" class="icon-btn" title="Újraméretezés" hidden>
                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
             </button>
@@ -72,6 +75,11 @@
             </button>
         </div>
     </header>
+
+    <!-- Mobil: header össze-/lecsukó gomb -->
+    <button id="header-toggle-btn" class="header-toggle-btn" title="Fejléc el-/lenyitása" hidden>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
 
     <main class="setup-container" id="setup-view">
         <div class="content-box">
@@ -160,7 +168,7 @@
     </div>
 
     <script src="words.js"></script>
-    <script src="main.js?v=6"></script>
+    <script src="main.js?v=13"></script>
 </body>
 
 </html>
