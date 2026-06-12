@@ -11,6 +11,7 @@ const startGameBtn = document.getElementById('start-game-btn');
 const drawBtn               = document.getElementById('draw-btn');
 const passBtn               = document.getElementById('pass-btn');
 const retryBtn              = document.getElementById('retry-btn');
+const resizeBtn             = document.getElementById('resize-btn');
 const exitBtn               = document.getElementById('exit-btn');
 const gameTimer             = document.getElementById('game-timer');
 const highlightCountdownBtn = document.getElementById('highlight-countdown-btn');
@@ -51,6 +52,7 @@ function returnToSetup() {
     // UI reset
     gameTimer.hidden = true;
     exitBtn.hidden = true;
+    resizeBtn.hidden = true;
     gameView.hidden = true;
     setupView.hidden = false;
     // Új szókészlet generálása
@@ -286,6 +288,7 @@ function startGame() {
 
     wrongGuesses = [];
     exitBtn.hidden = false;
+    resizeBtn.hidden = false;
     setRaffleState('idle');
     autoFitFontSize();
 }
@@ -309,6 +312,8 @@ function autoFitFontSize() {
 }
 
 let resizeTimeout = null;
+resizeBtn.addEventListener('click', autoFitFontSize);
+
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(autoFitFontSize, 100);

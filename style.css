@@ -516,6 +516,15 @@ body {
     margin: 0;
 }
 
+.modal-description {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+}
+
 .modal-input {
     border: 1.5px solid var(--box-border);
     border-radius: 12px;
